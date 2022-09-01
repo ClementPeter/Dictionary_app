@@ -1,6 +1,6 @@
 # dictionary_app
 
-A new Flutter project.
+A new Flutter project to search and find meanings of words .
 
 ## Getting Started
 
