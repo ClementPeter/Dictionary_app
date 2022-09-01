@@ -1,8 +1,8 @@
-//Model folder is used to store json collection
-
 // To parse this JSON data, do
 //
 //     final dictionaryModel = dictionaryModelFromJson(jsonString);
+
+//Model folder is used to store json collection
 
 import 'dart:convert';
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:dictionary_app/services/service.dart';
+// import 'package:dictionary_app/services/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,6 +39,8 @@ class _MyHomePageState extends State<MyHomePage> {
   //   });
   // }
 
+  DictionaryService dictionaryService = DictionaryService();
+
   TextEditingController controller = TextEditingController();
 
   @override
@@ -59,8 +63,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 child: Row(
                   children: [
-                    TextFormField(),
-                    IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+                    TextFormField(
+                      controller: controller,
+                      decoration: const InputDecoration( 
+                        label: Text('Search Query'),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          dictionaryService.getMeaning(word: controller.text);
+                        },
+                        icon: const Icon(Icons.search))
                   ],
                 ),
               ),
