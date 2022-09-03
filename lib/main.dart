@@ -44,6 +44,12 @@
 //   TextEditingController controller = TextEditingController();
 
 //   @override
+//   void dispose() {
+//     // TODO: implement dispose
+//     controller.dispose();
+//   }
+
+//   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBar(
@@ -62,14 +68,17 @@
 //                   Container(
 //                     decoration: BoxDecoration(
 //                       borderRadius: BorderRadius.circular(10),
+//                       border: Border.all(),
 //                     ),
 //                     child: Row(
 //                       children: [
-//                         TextFormField(
-//                           controller: controller,
-//                           decoration: const InputDecoration(
-//                             label: Text('Search Query'),
-//                             border: InputBorder.none,
+//                         Expanded(
+//                           child: TextFormField(
+//                             controller: controller,
+//                             decoration: const InputDecoration(
+//                               label: Text('Search any word'),
+//                               border: InputBorder.none,
+//                             ),
 //                           ),
 //                         ),
 //                         IconButton(
@@ -84,16 +93,17 @@
 //                   const SizedBox(height: 20),
 //                   controller.text.isEmpty
 //                       ? const SizedBox(child: Text('Search a term'))
-//                       : FutureBuilder(
-//                           future: dictionaryService.getMeaning(
-//                               word: controller.text),
-//                           builder: (context, snapshot) {
-//                             return  const Text('chortle my balls');
-//                             // if(snapshot.hasData){
-//                             //   return Expanded
-//                             // }
-//                           },
-//                         ), 
+//                       : const SizedBox(child: Text('a term'))
+//                   // : FutureBuilder(
+//                   //     future: dictionaryService.getMeaning(
+//                   //         word: controller.text),
+//                   //     builder: (context, snapshot) {
+//                   //       return  const Text('chortle my balls');
+//                   //       // if(snapshot.hasData){
+//                   //       //   return Expanded
+//                   //       // }
+//                   //     },
+//                   //   ),
 //                 ],
 //               ),
 //             ),
