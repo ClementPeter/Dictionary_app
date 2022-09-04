@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:dictionary_app/url.dart';
 import 'package:dictionary_app/models/models.dart';
 
 import 'package:http/http.dart' as http;
@@ -9,14 +7,14 @@ import 'package:http/http.dart' as http;
 
 class DictionaryService {
   Future<List<DictionaryModel>> getMeaning({String? word}) async {
-    final url = "$URL/$word";
+    final url = "https://api.dictionaryapi.dev/api/v2/entries/en/$word";
 
     try {
       final response = await http.get(Uri.parse(url));
-      print(response.statusCode);
+      //print(response.statusCode);
 
       if (response.statusCode == 200) {
-        print(response.body);
+        //print(response.body);
         final dictionaryModel = dictionaryModelFromJson(response.body);
         return dictionaryModel;
       } else {

@@ -33,14 +33,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //int _counter = 0;
-
-  // void _incrementCounter() {
-  //   setState(() {
-  //     _counter++;
-  //   });
-  // }
-
   AudioPlayer audioPlayer =
       AudioPlayer(); // Play audio from local device and online
 
@@ -59,7 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     // TODO: implement dispose
+    super.dispose();
     controller.dispose();
+    audioPlayer.dispose();
   }
 
   //Function to play pronunciation from Dictionary API
@@ -102,10 +96,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         IconButton(
-                            onPressed: () async {
-                              await dictionaryService.getMeaning(
-                                word: controller.text,
-                              );
+                            // onPressed: () async {
+                            //   await dictionaryService.getMeaning(
+                            //     word: controller.text,
+                            //   );
+                            // },
+                            onPressed: () {
+                              if (controller.text.isNotEmpty) {
+                                setState(() {});
+                              }
                             },
                             icon: const Icon(Icons.search))
                       ],
@@ -126,45 +125,47 @@ class _MyHomePageState extends State<MyHomePage> {
                                   children: List.generate(snapshot.data!.length,
                                       (index) {
                                     final data = snapshot.data![index];
-                                    return Column(
-                                      children: [
-                                        Container(
-                                          //color: Colors.grey,
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFFE2E2E2),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: ListTile(
-                                            leading: Text(data.word!),
-                                            title: Text(
-                                              data
-                                                  .meanings![index]
-                                                  .definitions![index]
-                                                  .definition!,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w500),
+                                    return Container(
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFFE2E2E2),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                             ),
-                                            subtitle: Text(
-                                                data.phonetics![index].text!),
-                                            trailing: IconButton(
-                                              icon: Icon(
-                                                Icons.volume_up,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
+                                            child: ListTile(
+                                              leading: Text(data.word!),
+                                              title: Text(
+                                                data
+                                                    .meanings![index]
+                                                    .definitions![index]
+                                                    .definition!,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                               ),
-                                              onPressed: () {
-                                                String? audio = data
-                                                    .phonetics![index].audio!;
-                                                //print(path);
-                                                playAudio(audio);
-                                              },
-
-                                              //isThreeLine: true,
+                                              subtitle: Text(
+                                                data.phonetics![index].text!,
+                                              ),
+                                              trailing: IconButton(
+                                                icon: Icon(
+                                                  Icons.volume_up,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                                onPressed: () {
+                                                  String? audio = data
+                                                      .phonetics![index].audio;
+                                                  //print(path);
+                                                  playAudio(audio!);
+                                                },
+                                              ),
+                                              isThreeLine: true,
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     );
                                   }),
                                 ),
