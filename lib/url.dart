@@ -1,1 +1,1 @@
-String URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
+String URL = "https://api.dictionaryapi.dev/api/v2/entries/en";

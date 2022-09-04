@@ -13,6 +13,7 @@ class DictionaryService {
 
     try {
       final response = await http.get(Uri.parse(url));
+      print(response.statusCode);
 
       if (response.statusCode == 200) {
         print(response.body);
@@ -25,7 +26,7 @@ class DictionaryService {
     } on SocketException catch (_) {
       return Future.error('No Internet Connection');
     } catch (_) {
-      return Future.error('An Unknown error occured');
+      return Future.error('An unknown error occured, Please retry');
     }
   }
 }
