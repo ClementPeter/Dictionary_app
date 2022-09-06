@@ -2,7 +2,7 @@
 //
 //     final dictionaryModel = dictionaryModelFromJson(jsonString);
 
-//Model folder is used to store json collection
+//Model folder is used to store json collection from the Dictionary API
 
 import 'dart:convert';
 

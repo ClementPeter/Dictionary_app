@@ -69,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         centerTitle: true,
       ),
+      //body shoes list view
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
@@ -119,53 +120,88 @@ class _MyHomePageState extends State<MyHomePage> {
                               word: controller.text),
                           builder: (context,
                               AsyncSnapshot<List<DictionaryModel>> snapshot) {
+                            print("Data $snapshot");
                             if (snapshot.hasData) {
                               return Expanded(
                                 child: ListView(
                                   children: List.generate(snapshot.data!.length,
                                       (index) {
                                     final data = snapshot.data![index];
-                                    return Container(
-                                      child: Column(
-                                        children: [
-                                          Container(
+                                    return Column(
+                                      children: [
+                                        Container(
                                             decoration: BoxDecoration(
                                               color: const Color(0xFFE2E2E2),
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                             ),
-                                            child: ListTile(
-                                              leading: Text(data.word!),
-                                              title: Text(
-                                                data
-                                                    .meanings![index]
-                                                    .definitions![index]
-                                                    .definition!,
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.w500,
+                                            child: Column(
+                                              children: [
+                                                ListTile(
+                                                  //shows -word , transcription
+                                                  //leading: Text(data.word!),
+                                                  title: Text(
+                                                    data.meanings![index]
+                                                        .partOfSpeech!,
+                                                  ),
+                                                  //word
+                                                  leading: Text(
+                                                    data.word!,
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+
+                                                  //transcription
+                                                  subtitle: Text(
+                                                    data.phonetics![index]
+                                                        .text!,
+                                                  ),
+                                                  //Audio
+                                                  trailing: IconButton(
+                                                    icon: Icon(
+                                                      Icons.volume_up,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                    ),
+                                                    onPressed: () {
+                                                      String? audio = data
+                                                          .phonetics![index]
+                                                          .audio;
+                                                      //print(path);
+                                                      playAudio(audio!);
+                                                    },
+                                                  ),
+                                                  isThreeLine: true,
                                                 ),
-                                              ),
-                                              subtitle: Text(
-                                                data.phonetics![index].text!,
-                                              ),
-                                              trailing: IconButton(
-                                                icon: Icon(
-                                                  Icons.volume_up,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
+                                                ListTile(
+                                                  //word
+                                                  //title: Text(data.word!),
+                                                  title: Text(
+                                                    data
+                                                        .meanings![index]
+                                                        .definitions![index]
+                                                        .definition!,
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  //exampls
+                                                  subtitle: Text(
+                                                    data
+                                                        .meanings![index]
+                                                        .definitions![index]
+                                                        .example!,
+                                                  ),
+
+                                                  isThreeLine: true,
                                                 ),
-                                                onPressed: () {
-                                                  String? audio = data
-                                                      .phonetics![index].audio;
-                                                  //print(path);
-                                                  playAudio(audio!);
-                                                },
-                                              ),
-                                              isThreeLine: true,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                              ],
+                                            )),
+                                      ],
                                     );
                                   }),
                                 ),
@@ -183,11 +219,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
       // ),
     );
   }
