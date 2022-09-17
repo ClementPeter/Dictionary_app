@@ -2,6 +2,14 @@
 
 A new Flutter project to search and find meanings of words .
 
+
+## 📸 Screenshots
+
+
+|                                   |                                   |                         |
+| --------------------------------- | --------------------------------- |------------------------ |
+|![use2](https://user-images.githubusercontent.com/61213263/190852553-ae37bdd4-ea19-474e-9c35-7591f34b594c.png) | ![use1](https://user-images.githubusercontent.com/61213263/190852582-7c355c19-32fb-4e9b-b9bf-0d0e784eec37.png)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
