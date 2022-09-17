@@ -16,11 +16,9 @@ This Flutter project is a lightweight dictionary application used to search and 
 
 ### Resources Used
 
-> Tutorial Playlist : https://www.youtube.com/watch?v=kUeTVggUJTw&t=394s
-
-
 > API Source: https://dictionaryapi.dev/
 
+> Tutorial Playlist : https://www.youtube.com/watch?v=kUeTVggUJTw&t=394s
 
 ## Getting Started
 
