@@ -36,8 +36,10 @@ class _MyHomePageState extends State<MyHomePage> {
   AudioPlayer audioPlayer =
       AudioPlayer(); // Play audio from local device and online
 
+  //Dictionary Object/instance
   DictionaryService dictionaryService = DictionaryService();
 
+  //TextEditing controller- for text manipulation
   TextEditingController controller = TextEditingController();
 
   @override
@@ -70,156 +72,134 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
       ),
       //body shoes list view
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
-              height: MediaQuery.of(context).size.height,
-              //color: Colors.green,
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: controller,
-                            decoration: const InputDecoration(
-                              label: Text('Search any word'),
-                              border: InputBorder.none,
-                            ),
-                          ),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        height: MediaQuery.of(context).size.height,
+        //color: Colors.green,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: controller,
+                        decoration: const InputDecoration(
+                          label: Text('Search any word'),
+                          border: InputBorder.none,
                         ),
-                        IconButton(
-                            // onPressed: () async {
-                            //   await dictionaryService.getMeaning(
-                            //     word: controller.text,
-                            //   );
-                            // },
-                            onPressed: () {
-                              if (controller.text.isNotEmpty) {
-                                setState(() {});
-                              }
-                            },
-                            icon: const Icon(Icons.search))
-                      ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  controller.text.isEmpty
-                      ? const SizedBox(child: Text('Search a term'))
-                      // : const SizedBox(child: Text('a term'))
-                      : FutureBuilder(
-                          future: dictionaryService.getMeaning(
-                              word: controller.text),
-                          builder: (context,
-                              AsyncSnapshot<List<DictionaryModel>> snapshot) {
-                            print("Data $snapshot");
-                            if (snapshot.hasData) {
-                              return Expanded(
-                                child: ListView(
-                                  children: List.generate(snapshot.data!.length,
-                                      (index) {
-                                    final data = snapshot.data![index];
-                                    return Column(
-                                      children: [
-                                        Container(
-                                            decoration: BoxDecoration(
-                                              color: const Color(0xFFE2E2E2),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                ListTile(
-                                                  //shows -word , transcription
-                                                  //leading: Text(data.word!),
-                                                  title: Text(
-                                                    data.meanings![index]
-                                                        .partOfSpeech!,
-                                                  ),
-                                                  //word
-                                                  leading: Text(
-                                                    data.word!,
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-
-                                                  //transcription
-                                                  subtitle: Text(
-                                                    data.phonetics![index]
-                                                        .text!,
-                                                  ),
-                                                  //Audio
-                                                  trailing: IconButton(
-                                                    icon: Icon(
-                                                      Icons.volume_up,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                    ),
-                                                    onPressed: () {
-                                                      String? audio = data
-                                                          .phonetics![index]
-                                                          .audio;
-                                                      //print(path);
-                                                      playAudio(audio!);
-                                                    },
-                                                  ),
-                                                  isThreeLine: true,
-                                                ),
-                                                ListTile(
-                                                  //word
-                                                  //title: Text(data.word!),
-                                                  title: Text(
-                                                    data
-                                                        .meanings![index]
-                                                        .definitions![index]
-                                                        .definition!,
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                  //exampls
-                                                  subtitle: Text(
-                                                    data
-                                                        .meanings![index]
-                                                        .definitions![index]
-                                                        .example!,
-                                                  ),
-
-                                                  isThreeLine: true,
-                                                ),
-                                              ],
-                                            )),
-                                      ],
-                                    );
-                                  }),
-                                ),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text(snapshot.error.toString());
-                            } else {
-                              return const CircularProgressIndicator();
-                            }
-                          },
-                        ),
-                ],
+                    //Search Button
+                    IconButton(
+                      //Does automatic re-rendering
+                      onPressed: () {
+                        if (controller.text.isNotEmpty) {
+                          setState(() {});
+                        }
+                      },
+                      icon: const Icon(Icons.search),
+                    ),
+                    //Cancle Button
+                    IconButton(
+                      onPressed: () {
+                        //Does automatic re-rendering
+                        setState(() {
+                          controller.clear();
+                        });
+                      },
+                      icon: const Icon(Icons.cancel_outlined),
+                    ),
+                  ],
+                ),
               ),
-            ),
+              const SizedBox(height: 10),
+              controller.text.isEmpty
+                  ? const SizedBox(child: Text('Search a term'))
+                  : FutureBuilder(
+                      future:
+                          dictionaryService.getMeaning(word: controller.text),
+                      builder: (context,
+                          AsyncSnapshot<List<DictionaryModel>> snapshot) {
+                        print("Data snapshot : $snapshot");
+                        if (snapshot.hasData) {
+                          return ListView(
+                            shrinkWrap: true,
+                            children: List.generate(
+                              snapshot.data!.length,
+                              (index) {
+                                final data = snapshot.data![index];
+                                return Container(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        child: ListTile(
+                                          tileColor: const Color(0xFFE2E2E2),
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(10),
+                                              topRight: Radius.circular(10),
+                                            ),
+                                          ),
+                                          title: Text(data.word!),
+                                          subtitle: Text(
+                                            data.phonetics![index].text!,
+                                          ),
+                                          //Audio
+                                          trailing: IconButton(
+                                            icon: Icon(
+                                              Icons.volume_up,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                            onPressed: () {
+                                              String? audio =
+                                                  data.phonetics![index].audio;
+                                              //print(path);
+                                              //playAudio(audio!);
+                                              playAudio("https:$audio");
+                                            },
+                                          ),
+                                          // isThreeLine: true,
+                                        ),
+                                      ),
+                                      Container(
+                                        child: ListTile(
+                                          tileColor: const Color(0xFFE2E2E2),
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(10),
+                                              bottomRight: Radius.circular(10),
+                                            ),
+                                          ),
+                                          title: Text(data.meanings![index]
+                                              .definitions![index].definition!),
+                                          subtitle: Text(data
+                                              .meanings![index].partOfSpeech!),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+            ],
           ),
-        ],
+        ),
       ),
-      // ),
     );
   }
 }

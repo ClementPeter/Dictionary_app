@@ -2,7 +2,7 @@
 //
 //     final dictionaryModel = dictionaryModelFromJson(jsonString);
 
-//Model folder is used to store json collection from the Dictionary API
+//Model folder is used to store, arrange and format json collection from the Dictionary API
 
 import 'dart:convert';
 
@@ -109,3 +109,6 @@ class Phonetic {
         "audio": audio == null ? null : audio,
     };
 }
+
+
+
